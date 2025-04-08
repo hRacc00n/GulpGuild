@@ -6,6 +6,7 @@ const concat = require('gulp-concat');
 const del = require('del');
 const rename = require('gulp-rename');
 const cleanCss = require('gulp-clean-css');
+const sourcemap = require('gulp-sourcemaps');
 
 const paths = {
     styles: {
@@ -22,12 +23,14 @@ const clean = () => del(['dist']);
 
 const styles = () => {
     return gulp.src(paths.styles.src)
+        .pipe(sourcemap.init())
         .pipe(sass())
         .pipe(cleanCss())
         .pipe(rename({
             basename: 'styles',
             suffix: '.min'
         }))
+        .pipe(sourcemap.write())
         .pipe(gulp.dest(paths.styles.dest))
 }
 
